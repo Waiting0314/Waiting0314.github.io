@@ -3,22 +3,358 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>簡易履歷</title>
-    <link rel="stylesheet" href="assets/css/all.min.css">
+    <title>林威廷 Tim Lin - Resume</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* 基本重置 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --sidebar-bg: #1a253c;
+            --sidebar-text: #ffffff;
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --text-color: #333333;
+            --light-text: #666666;
+            --line-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
+            background-color: #e9ecef;
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+            font-size: 10pt;
+        }
+
+        /* 履歷 A4 雙欄容器 */
+        .resume-container {
+            width: 210mm;
+            height: 297mm;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        /* ================= 左側邊欄 ================= */
+        .sidebar {
+            width: 33%;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .profile-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffffff;
+            margin-bottom: 15px;
+            background-color: #fff;
+        }
+
+        .sidebar h1 {
+            font-size: 20pt;
+            margin-bottom: 2px;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .sidebar h2 {
+            font-size: 11pt;
+            font-weight: 400;
+            color: #a0b2c6;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .sidebar-section {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .sidebar-section h3 {
+            font-size: 12pt;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 5px;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .contact-list p {
+            font-size: 9pt;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-list i {
+            width: 20px;
+            font-size: 10pt;
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+
+        .sidebar a {
+            color: var(--sidebar-text);
+            text-decoration: none;
+        }
+
+        /* 技能標籤 */
+        .skill-group {
+            margin-bottom: 12px;
+        }
+        .skill-group-title {
+            font-size: 9pt;
+            color: #a0b2c6;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .skill-tag {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 8.5pt;
+        }
+
+        /* ================= 右側主內容 ================= */
+        .main-content {
+            width: 67%;
+            padding: 35px 35px 25px 35px;
+            background-color: #ffffff;
+        }
+
+        .main-section {
+            margin-bottom: 25px;
+        }
+
+        .main-section h3 {
+            font-size: 14pt;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 4px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .main-section h3 i {
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+
+        /* Summary 文字設定 */
+        .summary-text {
+            font-size: 9.5pt;
+            line-height: 1.7;
+            text-align: justify;
+            color: var(--text-color);
+        }
+
+        /* 經歷與學歷項目 */
+        .timeline-item {
+            margin-bottom: 18px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 3px;
+        }
+
+        .item-title {
+            font-size: 12pt;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .item-date {
+            font-size: 9pt;
+            color: var(--light-text);
+        }
+
+        .item-company {
+            font-size: 10pt;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+
+        .timeline-item ul {
+            list-style-type: disc;
+            padding-left: 18px;
+        }
+
+        .timeline-item ul li {
+            font-size: 9.5pt;
+            margin-bottom: 6px;
+            text-align: justify;
+        }
+
+        /* ================= 列印專用設定 ================= */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0; 
+            }
+            body {
+                background-color: transparent;
+                padding: 0;
+                margin: 0;
+            }
+            .resume-container {
+                box-shadow: none;
+                width: 210mm;
+                height: 297mm;
+                margin: 0;
+                page-break-after: avoid;
+                page-break-before: avoid;
+            }
+            a {
+                text-decoration: none !important;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>林威廷</h1>
-        <p>全端/AI 應用工程師</p>
-    </header>
 
-    <section>
-        <h2>AutoML 平台系統</h2>
-        <p>以 Django 框架建置自助式 AutoML 平台，提供使用者上傳資料、資料清洗、模型訓練與評估功能。</p>
-        <p>整合 Random Forest、XGBoost 等主流演算法，支援模型訓練、比較與預測，並提供 RESTful API 介面供外部系統呼叫。</p>
-        <p>開發直觀可視化圖表來解釋模型評估結果，協助使用者快速理解模型表現並進行決策。</p>
-        <p><strong>使用技術：</strong>CSS, Django, Docker, HTML, JavaScript, Python, Scikit-learn, XGBoost, Random Forest, RESTful API</p>
-    </section>
+    <div class="resume-container">
+        
+        <aside class="sidebar">
+            <img src="images/個人照片.png" alt="林威廷" class="profile-img">
+            <h1>林威廷</h1>
+            <h2>Tim Lin<br>Data Analyst</h2>
+
+            <div class="sidebar-section">
+                <h3>CONTACT</h3>
+                <div class="contact-list">
+                    <p><i class="fas fa-location-dot"></i> New Taipei, Taiwan</p>
+                    <p><i class="fas fa-phone"></i> +886-922-334-322</p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:860314tim@gmail.com">860314tim@gmail.com</a></p>
+                    <p><i class="fab fa-github"></i> <a href="https://github.com/Waiting0314" target="_blank">Waiting0314</a></p>
+                    <p><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/威廷-林-401182136" target="_blank">LinkedIn Profile</a></p>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>SKILLS</h3>
+                
+                <div class="skill-group">
+                    <div class="skill-group-title">Web & Backend</div>
+                    <div class="skills-container">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Django</span>
+                        <span class="skill-tag">RESTful API</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">HTML</span>
+                        <span class="skill-tag">CSS</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <div class="skill-group-title">DevOps & Database</div>
+                    <div class="skills-container">
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">GitLab CI/CD</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">Redis</span>
+                        <span class="skill-tag">Airflow</span>
+                        <span class="skill-tag">Linux</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <div class="skill-group-title">AI & Data Science</div>
+                    <div class="skills-container">
+                        <span class="skill-tag">RAG</span>
+                        <span class="skill-tag">Prompt Engineering</span>
+                        <span class="skill-tag">Scikit-learn</span>
+                        <span class="skill-tag">DaVinci</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+            <section class="main-section">
+                <h3><i class="fas fa-user-tie"></i> SUMMARY</h3>
+                <p class="summary-text">
+                    具備統計學碩士背景與 3 年以上大數據分析及全端開發經驗。擅長運用 Python、Django 與 Docker 建構自動化工作流、CI/CD 部署與機器學習平台。近期專注於 AI 應用落地，熟練運用 RAG 技術與各類資料庫，將 AI 助手無縫整合至企業內部系統。致力於透過數據分析與自動化工具解決真實商業問題，並持續提升跨部門的營運與開發效率。
+                </p>
+            </section>
+
+            <section class="main-section">
+                <h3><i class="fas fa-briefcase"></i> WORK EXPERIENCE</h3>
+                
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <span class="item-title">數據分析師</span>
+                        <span class="item-date">2025.09 – 至今</span>
+                    </div>
+                    <div class="item-company">英屬開曼群島商鴻騰精密科技股份有限公司台灣分公司 | 數據賦能創新中心</div>
+                    <ul>
+                        <li><strong>DevOps 與 CI/CD 流程自動化：</strong>使用 Docker 建構測試與正式環境，並導入 GitLab Runner 規劃 CI/CD 標準化部署流程，大幅減少人工操作時間與跨環境配置錯誤。</li>
+                        <li><strong>AI 應用與查檢助手開發：</strong>運用 RAG 技術與 DaVinci 平台開發 AI 查檢助手，自動化比對各系統表單，降低人為填寫錯誤率。</li>
+                        <li><strong>APP 工具入口平台建置：</strong>以 Django 開發統一的內部 API 與應用平台介面，整合人資系統資源以追蹤各單位工具使用流向，並統一部門應用的 UI 規範。</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <span class="item-title">大數據分析工程師</span>
+                        <span class="item-date">2022.03 – 2025.08</span>
+                    </div>
+                    <div class="item-company">欣興電子股份有限公司 | 智慧製造處</div>
+                    <ul>
+                        <li><strong>AutoML 平台系統全端開發：</strong>以 Django 框架建置自助式機器學習平台，提供資料清洗、模型訓練、評估與可視化圖表的一站式服務。</li>
+                        <li><strong>人力資源編制平台：</strong>負責架構規劃與功能開發，優化人力編制表單規劃與管理效率。</li>
+                        <li><strong>PHM 設備故障預警系統：</strong>參與系統建置與模型優化，有效降低設備突發停機風險。</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="main-section">
+                <h3><i class="fas fa-graduation-cap"></i> EDUCATION</h3>
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <span class="item-title">統計研究所 碩士</span>
+                        <span class="item-date">2019.09 – 2021.06</span>
+                    </div>
+                    <div class="item-company">國立中央大學</div>
+                    <ul>
+                        <li><strong>榮譽：</strong>發表碩士論文『風險回歸模型下時間相依 ROC 曲線』，榮獲 2021 年中國統計學社論文獎－佳作。</li>
+                    </ul>
+                </div>
+            </section>
+
+        </main>
+
+    </div>
 
 </body>
 </html>
